@@ -1,0 +1,121 @@
+{% extends 'main.html' %}
+
+{% block content %}
+
+{% load static %}
+
+<!-- Carousel Start -->
+<div class="container-fluid p-0 mb-5 pb-5">
+    <div id="header-carousel" class="carousel slide" data-ride="carousel">
+        <div class="carousel-inner">
+            <div class="carousel-item active">
+                <img class="w-100" height="500px" src="{% static 'recommenderSystem/img/carousel1.png' %}" alt="Image">
+                <div class="carousel-caption d-flex flex-column align-items-center justify-content-center">
+                    <div class="p-3" style="max-width: 900px;">
+                        <p class="display-4 text-white mb-md-4">Welcome to a small project dedicated to the emotion regulation by using different media sources such as books, movies and music.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="carousel-item">
+                <img class="w-100" height="500px" src="{% static 'recommenderSystem/img/carousel2.jpg' %}" alt="Image">
+                <div class="carousel-caption d-flex flex-column align-items-center justify-content-center">
+                    <div class="p-3" style="max-width: 900px;">
+                        <p class="display-4 text-white mb-md-4">Welcome to a small project dedicated to the emotion regulation by using different media sources such as books, movies and music.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <a class="carousel-control-prev" href="#header-carousel" data-slide="prev">
+            <div class="btn btn-secondary px-0" style="width: 45px; height: 45px;">
+                <span class="carousel-control-prev-icon mb-n1"></span>
+            </div>
+        </a>
+        <a class="carousel-control-next" href="#header-carousel" data-slide="next">
+            <div class="btn btn-secondary px-0" style="width: 45px; height: 45px;">
+                <span class="carousel-control-next-icon mb-n1"></span>
+            </div>
+        </a>
+    </div>
+</div>
+<!-- Carousel End -->
+
+
+<!-- About Start -->
+<div class="container-fluid py-1">
+    <div class="container py-1">
+        <div class="row justify-content-center">
+            <div class="col-lg-5">
+                <h1 class="section-title position-relative text-center mb-3">Handful & Funny</h1>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-4 py-5">
+                <h4 class="font-weight-bold mb-5">Firstly, do you know what is mood reading?</h4>
+                <p>Mood reading is what it sounds like: it’s a type of reading method where you decide what to read based on your current mood. It means you can read multiple books at once. Of course, it is not only about literature.</p>
+            </div>
+            <div class="col-lg-4 py-5">
+                <h4 class="font-weight-bold mb-3">Our mood can affect you as a reader...</h4>
+                <p>If your mood and your current read are at odds, your enjoyment of that read will likely suffer, and you could end up feeling frustrated. For example, if you’re feeling stressed out or overwhelmed, you’ll likely have trouble staying focused when reading a complex story.</p>
+            </div>
+            <div class="col-lg-4 py-5">
+                <h4 class="font-weight-bold mb-3">Correct choice of media can help you to regulate your emotions!</h4>
+                <p>Yes, it can. Probably you as many of other people use music to cope with some strong emotions. Reading proper books and watching movies can work too.</p>
+            </div>
+        </div>
+        <div class="row justify-content-center">
+            <a href="{% url 'register' %}" class="btn btn-primary mt-1">Let's try</a>
+        </div>
+    </div>
+</div>
+<!-- About End -->
+
+
+<!-- Options Start -->
+<div class="container-fluid py-5">
+    <div class="container py-5">
+        <div class="row">
+            <div class="col-lg-6">
+                <h1 class="section-title position-relative mb-5">Emotion detection options we provide</h1>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <div class="owl-carousel service-carousel">
+                    <div class="service-item py-2">
+                        <div class="service-img mx-auto">
+                            <img class="rounded-circle w-100 h-100 bg-light p-3" src="{% static 'recommenderSystem/img/option-1.png' %}" style="object-fit: cover;">
+                        </div>
+                        <div class="position-relative text-center bg-light rounded p-4 pb-5" style="margin-top: -75px;">
+                            <h5 class="font-weight-semi-bold mt-5 mb-3 pt-5">Face detection</h5>
+                            <p>Just take a picture of your face, and we will try our best to define your current emotion!</p>
+                            <a href="{% url 'register' %}" class="border-bottom border-secondary text-decoration-none text-secondary">Learn More</a>
+                        </div>
+                    </div>
+                    <div class="service-item py-2">
+                        <div class="service-img mx-auto">
+                            <img class="rounded-circle w-100 h-100 bg-light p-3" src="{% static 'recommenderSystem/img/option-2.png' %}" style="object-fit: cover;">
+                        </div>
+                        <div class="position-relative text-center bg-light rounded p-4 pb-5" style="margin-top: -75px;">
+                            <h5 class="font-weight-semi-bold mt-5 mb-3 pt-5">Voice recognition</h5>
+                            <p>Just record your voice, and we will try our best to define your current emotion!</p>
+                            <a href="{% url 'register' %}" class="border-bottom border-secondary text-decoration-none text-secondary">Learn More</a>
+                        </div>
+                    </div>
+                    <div class="service-item py-2">
+                        <div class="service-img mx-auto">
+                            <img class="rounded-circle w-100 h-100 bg-light p-3" src="{% static 'recommenderSystem/img/option-3.png' %}" style="object-fit: cover;">
+                        </div>
+                        <div class="position-relative text-center bg-light rounded p-4 pb-5" style="margin-top: -75px;">
+                            <h5 class="font-weight-semi-bold mt-5 mb-3 pt-5">Questionnaire</h5>
+                            <p>Answer to some easy questions, and we will try our best to define your current emotion!</p>
+                            <a href="{% url 'register' %}" class="border-bottom border-secondary text-decoration-none text-secondary">Learn More</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Options End -->
+
+{% endblock %}

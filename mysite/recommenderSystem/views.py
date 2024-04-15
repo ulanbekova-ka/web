@@ -1,19 +1,15 @@
 from django.contrib import messages
-from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
-from django.contrib.auth.decorators import login_required
 from .forms import CreateUserForm
 
 
-@login_required(login_url='login')
-def homePage(request):
-    return HttpResponse("Hello, world. You're at the polls index.")
+def home_page(request):
+    return render(request, 'home.html')
 
 
-def registerPage(request):
+def register_page(request):
     form = CreateUserForm()
-
     if request.method == "POST":
         form = CreateUserForm(request.POST)
         if form.is_valid():
@@ -24,7 +20,9 @@ def registerPage(request):
     return render(request, 'register.html', context)
 
 
-def loginPage(request):
+def login_page(request):
+    if request.user.is_authenticated:
+        return redirect('home')
 
     if request.method == "POST":
         username = request.POST.get('username')
@@ -40,3 +38,8 @@ def loginPage(request):
 
     context = {}
     return render(request, 'login.html', context)
+
+
+def logout_page(request):
+    logout(request)
+    return redirect('login')
