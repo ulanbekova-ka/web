@@ -2,6 +2,7 @@ from django.contrib import messages
 from django.http import JsonResponse
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
+from .emotion_detection import emotion_by_voice
 from .forms import CreateUserForm
 
 
@@ -12,7 +13,8 @@ def home_page(request):
 def voice_page(request):
     if request.method == 'POST' and request.FILES.get('audio'):
         audio_file = request.FILES['audio']
-        print(audio_file)
+        emotion = emotion_by_voice(audio_file)
+        print(emotion)
         return JsonResponse({'success': True})
     else:
         return render(request, 'voice.html')
