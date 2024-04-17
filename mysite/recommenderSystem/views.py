@@ -10,12 +10,15 @@ def home_page(request):
     return render(request, 'home.html')
 
 
+def media_page(request):
+    return render(request, 'media.html')
+
+
 def voice_page(request):
-    if request.method == 'POST' and request.FILES.get('audio'):
+    if request.method == 'POST':
         audio_file = request.FILES['audio']
         emotion = emotion_by_voice(audio_file)
-        print(emotion)
-        return JsonResponse({'success': True})
+        return redirect('media')
     else:
         return render(request, 'voice.html')
 
@@ -24,6 +27,7 @@ def face_page(request):
     if request.method == 'POST':
         image_file = request.FILES['image']
         print(image_file)
+        return redirect('media')
     return render(request, 'face.html')
 
 

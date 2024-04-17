@@ -1,0 +1,53 @@
+{% extends 'main.html' %}
+
+{% block content %}
+
+{% load static %}
+
+<div class="container-fluid py-5">
+    <div class="container py-5">
+        <div class="row">
+            <div class="col-lg-6">
+                <a id="options"><h1 class="section-title position-relative mb-5">Media options we provide</h1></a>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <div class="owl-carousel service-carousel">
+                    <div class="service-item py-2">
+                        <div class="service-img mx-auto">
+                            <img class="rounded-circle w-100 h-100 bg-light p-3" src="{% static 'recommenderSystem/img/music.jpeg' %}" style="object-fit: cover;">
+                        </div>
+                        <div class="position-relative text-center bg-light rounded p-4 pb-5" style="margin-top: -75px;">
+                            <h5 class="font-weight-semi-bold mt-5 mb-3 pt-5">Music</h5>
+                            <p>We prepared the album to listen to according to you current mood. Enjoy!</p>
+                            <a href="{% url 'face' %}" class="border-bottom border-secondary text-decoration-none text-secondary">Learn More</a>
+                        </div>
+                    </div>
+                    <div class="service-item py-2">
+                        <div class="service-img mx-auto">
+                            <img class="rounded-circle w-100 h-100 bg-light p-3" src="{% static 'recommenderSystem/img/books.png' %}" style="object-fit: cover;">
+                        </div>
+                        <div class="position-relative text-center bg-light rounded p-4 pb-5" style="margin-top: -75px;">
+                            <h5 class="font-weight-semi-bold mt-5 mb-3 pt-5">Books</h5>
+                            <p>Observe the list of books related to your mood!</p>
+                            <a href="{% url 'register' %}" class="border-bottom border-secondary text-decoration-none text-secondary">Learn More</a>
+                        </div>
+                    </div>
+                    <div class="service-item py-2">
+                        <div class="service-img mx-auto">
+                            <img class="rounded-circle w-100 h-100 bg-light p-3" src="{% static 'recommenderSystem/img/movie.jpeg' %}" style="object-fit: cover;">
+                        </div>
+                        <div class="position-relative text-center bg-light rounded p-4 pb-5" style="margin-top: -75px;">
+                            <h5 class="font-weight-semi-bold mt-5 mb-3 pt-5">Movies</h5>
+                            <p>Make a cinema at home and give yourself a rest.</p>
+                            <a href="{% url 'register' %}" class="border-bottom border-secondary text-decoration-none text-secondary">Learn More</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
