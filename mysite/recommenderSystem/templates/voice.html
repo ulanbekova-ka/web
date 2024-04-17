@@ -1,0 +1,100 @@
+{% extends 'main.html' %}
+
+{% block content %}
+
+{% load static %}
+
+<div class="container">
+    <div class="card">
+        <div class="row align-items-center">
+            <div class="col m-sm-3">
+              <button id="recordButton">Record</button>
+              <button id="stopButton" disabled>Stop</button>
+              <button id="sendButton" disabled>Send Recording</button>
+              <p id="status"></p>
+              <audio id="audioElement" controls></audio>
+            </div>
+            <div class="col m-sm-3">
+                <h4 class="font-weight-bold mb-3">Face recognition</h4>
+                <p>Here we use an AI model that recognizes voice tones and categorizes them by 7 types:</p>
+                <ul>
+                    <li>angry</li>
+                    <li>sad</li>
+                    <li>fear</li>
+                    <li>happy</li>
+                    <li>disgust</li>
+                    <li>surprise</li>
+                    <li>neutral</li>
+                </ul>
+                <p>Click on the button below to send your recording and proceed with the recommendations</p>
+                <button id="capture" class="btn btn-primary mx-sm-3">Get recommendations</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    let mediaRecorder;
+let audioChunks = [];
+
+navigator.mediaDevices.getUserMedia({ audio: true })
+    .then(function(stream) {
+        mediaRecorder = new MediaRecorder(stream);
+
+        document.getElementById('recordButton').onclick = function() {
+            mediaRecorder.start();
+            document.getElementById('recordButton').disabled = true;
+            document.getElementById('stopButton').disabled = false;
+            document.getElementById('sendButton').disabled = true;
+            document.getElementById('status').innerHTML = 'Recording...';
+        };
+
+        document.getElementById('stopButton').onclick = function() {
+            mediaRecorder.stop();
+            document.getElementById('recordButton').disabled = false;
+            document.getElementById('stopButton').disabled = true;
+            document.getElementById('sendButton').disabled = false;
+            document.getElementById('status').innerHTML = 'Recording stopped.';
+        };
+
+        mediaRecorder.ondataavailable = function(event) {
+            audioChunks.push(event.data);
+        };
+
+        mediaRecorder.onstop = function() {
+            let audioBlob = new Blob(audioChunks, { type: 'audio/wav' });
+            let audioUrl = URL.createObjectURL(audioBlob);
+            document.getElementById('audioElement').src = audioUrl;
+        };
+    })
+    .catch(function(error) {
+        console.log('Error accessing microphone:', error);
+    });
+
+document.getElementById('sendButton').onclick = function() {
+    let audioBlob = new Blob(audioChunks, { type: 'audio/wav' });
+    let formData = new FormData();
+    formData.append('audio', audioBlob);
+
+    formData.append('csrfmiddlewaretoken', '{{ csrf_token }}');
+
+    fetch('/recommenderSystem/voice/', {
+        method: 'POST',
+        body: formData,
+        headers: {
+            'X-CSRFToken': '{{ csrf_token }}'
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log('Response:', data);
+        document.getElementById('status').innerHTML = 'Recording sent successfully.';
+    })
+    .catch(error => {
+        console.error('Error sending recording:', error);
+        document.getElementById('status').innerHTML = 'Failed to send recording.';
+    });
+};
+</script>
+
+{% endblock %}

@@ -1,4 +1,5 @@
 from django.contrib import messages
+from django.http import JsonResponse
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from .forms import CreateUserForm
@@ -8,7 +9,19 @@ def home_page(request):
     return render(request, 'home.html')
 
 
+def voice_page(request):
+    if request.method == 'POST' and request.FILES.get('audio'):
+        audio_file = request.FILES['audio']
+        print(audio_file)
+        return JsonResponse({'success': True})
+    else:
+        return render(request, 'voice.html')
+
+
 def face_page(request):
+    if request.method == 'POST':
+        image_file = request.FILES['image']
+        print(image_file)
     return render(request, 'face.html')
 
 
