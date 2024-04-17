@@ -8,6 +8,10 @@ def home_page(request):
     return render(request, 'home.html')
 
 
+def face_page(request):
+    return render(request, 'face.html')
+
+
 def register_page(request):
     form = CreateUserForm()
     if request.method == "POST":

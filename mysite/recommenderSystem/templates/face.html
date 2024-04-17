@@ -1,0 +1,40 @@
+{% extends 'main.html' %}
+
+{% block content %}
+
+{% load static %}
+
+<div class="container">
+    <div class="card">
+        <div class="row align-items-center">
+            <div class="col m-sm-3">
+                <video id="camerafeed" autoplay controls="" width="475px"></video>
+            </div>
+            <div class="col m-sm-3">
+                <h4 class="font-weight-bold mb-3">Face recognition</h4>
+                <p>Here we use an AI model that recognizes facial expression based on the 7 categories:</p>
+                <ul>
+                    <li>angry</li>
+                    <li>sad</li>
+                    <li>fear</li>
+                    <li>happy</li>
+                    <li>disgust</li>
+                    <li>surprise</li>
+                    <li>neutral</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    navigator.mediaDevices.getUserMedia({ video: true })
+        .then(function (stream) {
+            document.getElementById('camerafeed').srcObject = stream;
+        })
+        .catch(function (error) {
+            console.log('Camera access error:', error);
+        });
+</script>
+
+{% endblock %}
