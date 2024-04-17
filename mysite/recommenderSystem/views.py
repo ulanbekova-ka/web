@@ -1,8 +1,8 @@
+import webbrowser
 from django.contrib import messages
-from django.http import JsonResponse
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
-from .emotion_detection import emotion_by_voice
+from .emotion_detection import emotion_by_voice, emotion_by_face
 from .forms import CreateUserForm
 
 
@@ -10,25 +10,46 @@ def home_page(request):
     return render(request, 'home.html')
 
 
-def media_page(request):
-    return render(request, 'media.html')
+def media_page(request, emotion):
+    context = {'emotion': emotion}
+    return render(request, 'media.html', context)
+
+
+def open_youtube(request, emotion):
+    webbrowser.open(f"https://www.youtube.com/results?search_query={emotion}+songs")
+    return redirect('media', emotion)
+
+
+def find_books(request, emotion):
+    webbrowser.open(f"https://www.google.com/search?q={emotion}+books+to+read")
+    return redirect('media', emotion)
+
+
+def find_movies(request, emotion):
+    webbrowser.open(f"https://www.google.com/search?q=top+{emotion}+movies")
+    return redirect('media', emotion)
 
 
 def voice_page(request):
+    emotion = "happy"
     if request.method == 'POST':
         audio_file = request.FILES['audio']
         emotion = emotion_by_voice(audio_file)
-        return redirect('media')
-    else:
-        return render(request, 'voice.html')
+        return redirect('media', emotion)
+
+    context = {'emotion': emotion}
+    return render(request, 'voice.html', context)
 
 
 def face_page(request):
+    emotion = "sad"
     if request.method == 'POST':
         image_file = request.FILES['image']
-        print(image_file)
-        return redirect('media')
-    return render(request, 'face.html')
+        emotion = emotion_by_face(image_file)
+        return redirect('media', emotion)
+
+    context = {'emotion': emotion}
+    return render(request, 'face.html', context)
 
 
 def register_page(request):

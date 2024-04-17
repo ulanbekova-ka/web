@@ -8,30 +8,33 @@
     <div class="card">
         <div class="row align-items-center">
             <div class="col m-sm-3">
-              <button id="recordButton">Record</button>
-              <button id="stopButton" disabled>Stop</button>
-              <button id="sendButton" disabled>Send Recording</button>
-              <p id="status"></p>
-              <audio id="audioElement" controls></audio>
+                <button id="recordButton" class="btn btn-primary m-sm-1">Record</button>
+                <button id="stopButton" class="btn btn-primary m-sm-1" disabled>Stop</button>
+                <a href="{% url 'media' emotion %}" id="capture" class="btn btn-primary m-sm-1">Send</a>
+                <p id="status"></p>
+                <audio id="audioElement" controls></audio>
             </div>
-            <div class="col m-sm-3">
-                <h4 class="font-weight-bold mb-3">Voice recognition</h4>
-                <p>Here we use an AI model that recognizes voice tones and categorizes them by 7 types:</p>
-                <ul>
-                    <li>angry</li>
-                    <li>sad</li>
-                    <li>fearful</li>
-                    <li>happy</li>
-                    <li>disgusted</li>
-                    <li>surprised</li>
-                    <li>neutral</li>
-                </ul>
-                <p>Click on the button below to send your recording and proceed with the recommendations</p>
-                <a href="{% url 'media' %}" id="capture" class="btn btn-primary mx-sm-3">Get recommendations</a>
+            <div class="col m-sm-5">
+                <h4 class="font-weight-bold mb-4">Voice recognition</h4>
+                <p>Here we use an AI model that detects emotions in your speech</p>
+                <p>Press the "record" button, say anything you want (at least 3 sec.)</p>
+                <p>Stop the recording and send it to us. Thank you!</p>
             </div>
         </div>
     </div>
 </div>
+
+<style>
+audio {
+  width: 100%;
+  margin: 0 auto;
+}
+
+audio::-webkit-media-controls-panel {
+  color: #fff;
+  border-radius: 5px;
+}
+</style>
 
 <script>
     let mediaRecorder;
@@ -45,7 +48,7 @@ navigator.mediaDevices.getUserMedia({ audio: true })
             mediaRecorder.start();
             document.getElementById('recordButton').disabled = true;
             document.getElementById('stopButton').disabled = false;
-            document.getElementById('sendButton').disabled = true;
+            document.getElementById('capture').disabled = true;
             document.getElementById('status').innerHTML = 'Recording...';
         };
 
@@ -53,7 +56,7 @@ navigator.mediaDevices.getUserMedia({ audio: true })
             mediaRecorder.stop();
             document.getElementById('recordButton').disabled = false;
             document.getElementById('stopButton').disabled = true;
-            document.getElementById('sendButton').disabled = false;
+            document.getElementById('capture').disabled = false;
             document.getElementById('status').innerHTML = 'Recording stopped.';
         };
 
@@ -71,7 +74,7 @@ navigator.mediaDevices.getUserMedia({ audio: true })
         console.log('Error accessing microphone:', error);
     });
 
-document.getElementById('sendButton').onclick = function() {
+document.getElementById('capture').onclick = function() {
     let audioBlob = new Blob(audioChunks, { type: 'audio/wav' });
     let formData = new FormData();
     formData.append('audio', audioBlob);
