@@ -1,7 +1,9 @@
 import webbrowser
 from django.contrib import messages
+from django.http import JsonResponse
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
+
 from .emotion_detection import emotion_by_voice, emotion_by_face
 from .forms import CreateUserForm
 
@@ -42,13 +44,12 @@ def voice_page(request):
 
 
 def face_page(request):
-    emotion = "sad"
     if request.method == 'POST':
         image_file = request.FILES['image']
-        emotion = emotion_by_face(image_file)
-        return redirect('media', emotion)
+        emotion = emotion_by_face(image_file.read())
+        return JsonResponse({'emotion': emotion})
 
-    context = {'emotion': emotion}
+    context = {'emotion': 's'}
     return render(request, 'face.html', context)
 
 

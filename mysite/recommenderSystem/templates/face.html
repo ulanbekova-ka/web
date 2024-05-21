@@ -9,6 +9,7 @@
         <div class="row align-items-center">
             <div class="col m-sm-3">
                 <video id="camerafeed" autoplay controls="" width="475px"></video>
+                <canvas id="canvas" style="display:none;"></canvas>
             </div>
             <div class="col m-sm-3">
                 <h4 class="font-weight-bold mb-3">Face recognition</h4>
@@ -23,13 +24,14 @@
                     <li>neutral</li>
                 </ul>
                 <p>Click on the button below to take the photo and proceed with the recommendations</p>
-                <a id="capture" href="{% url 'media' emotion %}" class="btn btn-primary mx-sm-3">Get recommendations</a>
+                <button id="capture" class="btn btn-primary mx-sm-3">Get recommendations</button>
             </div>
         </div>
     </div>
 </div>
 
 <script>
+    // Access the user's webcam
     navigator.mediaDevices.getUserMedia({ video: true })
         .then(function (stream) {
             document.getElementById('camerafeed').srcObject = stream;
@@ -37,6 +39,36 @@
         .catch(function (error) {
             console.log('Camera access error:', error);
         });
+
+    // Capture the image from the video feed
+    document.getElementById('capture').addEventListener('click', function() {
+        const video = document.getElementById('camerafeed');
+        const canvas = document.getElementById('canvas');
+        const context = canvas.getContext('2d');
+        canvas.width = video.videoWidth;
+        canvas.height = video.videoHeight;
+        context.drawImage(video, 0, 0, canvas.width, canvas.height);
+        canvas.toBlob(function(blob) {
+            const formData = new FormData();
+            formData.append('image', blob, 'snapshot.png');
+
+            fetch("{% url 'face' %}", {
+                method: 'POST',
+                headers: {
+                    'X-CSRFToken': '{{ csrf_token }}'
+                },
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Success:', data);
+                window.location.href = 'http://127.0.0.1:8000/recommenderSystem/media/' + data['emotion'] + '/';
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
+        }, 'image/png');
+    });
 </script>
 
 {% endblock %}
