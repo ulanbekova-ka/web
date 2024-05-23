@@ -4,7 +4,7 @@ from django.http import JsonResponse
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 
-from .emotion_detection import emotion_by_voice, emotion_by_face
+from .utility import *
 from .forms import CreateUserForm
 
 
@@ -22,14 +22,25 @@ def open_youtube(request, emotion):
     return redirect('media', emotion)
 
 
-def find_books(request, emotion):
-    webbrowser.open(f"https://www.google.com/search?q={emotion}+books+to+read")
+def search_by_title(request, emotion, title):
+    webbrowser.open(f"https://www.google.com/search?q={title}")
     return redirect('media', emotion)
 
 
-def find_movies(request, emotion):
-    webbrowser.open(f"https://www.google.com/search?q=top+{emotion}+movies")
-    return redirect('media', emotion)
+def show_books(request, emotion):
+    genres = get_genres_by_emotion(emotion)
+    books = get_ten_books(genres)
+    titles = books['Title']
+    context = {'titles': titles, 'emotion': emotion}
+    return render(request, 'show_recommendations.html', context)
+
+
+def show_movies(request, emotion):
+    genres = get_genres_by_emotion(emotion)
+    movies = get_ten_movies(genres)
+    titles = movies['movie_name']
+    context = {'titles': titles, 'emotion': emotion}
+    return render(request, 'show_recommendations.html', context)
 
 
 def voice_page(request):

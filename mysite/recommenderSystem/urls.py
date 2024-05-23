@@ -12,6 +12,7 @@ urlpatterns = [
     path('voice/', views.voice_page, name='voice'),
     path('media/<str:emotion>/', views.media_page, name='media'),
     path('open_youtube/<str:emotion>/', views.open_youtube, name='open_youtube'),
-    path('find_books/<str:emotion>/', views.find_books, name='find_books'),
-    path('find_movies/<str:emotion>/', views.find_movies, name='find_movies'),
+    path('search_by_title/<str:emotion>/<str:title>/', views.search_by_title, name='search_by_title'),
+    path('show_books/<str:emotion>/', views.show_books, name='show_books'),
+    path('show_movies/<str:emotion>/', views.show_movies, name='show_movies'),
 ]
