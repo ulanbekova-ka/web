@@ -6,18 +6,25 @@
 
 <div class="container h-75">
     <div class="d-flex justify-content-center h-100">
-        <div class="d-flex justify-content-center">
-            <h3 id="form-title">Hi, {{user.username}}!</h3>
-        </div>
-        <h2>Settings</h2>
-        <p>Please choose the initial emotion and the one that will make you feel better after consuming the media with</p>
-        <div class="user_card">
+        <div class="d-flex flex-column justify-content-center">
+            <div class="d-flex justify-content-center">
+                <h3 id="form-title">Settings</h3>
+            </div>
             <div class="d-flex justify-content-center form_container">
-                <form method="post">
-                    {% csrf_token %}
-                    {{ form.as_p }}
-                    <button type="submit">Submit</button>
-                </form>
+                <p>Please choose the initial emotion and the one that will make you feel better after consuming the media with</p>
+            </div>
+            <div class="d-flex justify-content-center form_container">
+                <div class="user_card">
+                    <div class="d-flex justify-content-center form_container">
+                        <form method="post">
+                            {% csrf_token %}
+                            {{ form.as_p }}
+                            <div class="d-flex justify-content-center mt-3 login_container">
+				 				<input class="btn login_btn" type="submit" value="Submit">
+				   			</div>
+                        </form>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
