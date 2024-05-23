@@ -5,8 +5,8 @@ from deepface import DeepFace
 import numpy as np
 import librosa
 import wave
-from tensorflow.python.keras.models import load_model
 import pandas as pd
+from tensorflow.python.keras.models import load_model
 
 emotion_labels = ('angry', 'disgust', 'fear', 'happy', 'sad', 'neutral', 'surprise')
 
@@ -20,8 +20,7 @@ def emotion_by_face(image_data):
 
 
 def emotion_by_voice(audio_file):
-    model = load_model(
-        '/Users/kulanbekova/PycharmProjects/project/mysite/recommenderSystem/static/recommenderSystem/speech_rec.h5')
+    model = load_model('/Users/kulanbekova/PycharmProjects/project/mysite/recommenderSystem/static/recommenderSystem/speech_rec.h5')
 
     def extract_mfcc(filename):
         y, sr = librosa.load(filename, duration=3, offset=0.5)

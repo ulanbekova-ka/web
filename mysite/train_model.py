@@ -3,9 +3,8 @@ import numpy as np
 import os
 import librosa
 import librosa.display
-import matplotlib
-from keras.models import Sequential, save_model
-from keras.layers import Dense, LSTM, Dropout
+from tensorflow.python.keras.models import Sequential, save_model
+from tensorflow.python.keras.layers import Dense, LSTM, Dropout
 
 
 paths = []
