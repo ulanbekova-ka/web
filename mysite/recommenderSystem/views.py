@@ -4,8 +4,9 @@ from django.http import JsonResponse
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 
+from .models import CopingPreference
 from .utility import *
-from .forms import CreateUserForm
+from .forms import CreateUserForm, CopingPreferenceForm
 
 
 def home_page(request):
@@ -100,4 +101,22 @@ def logout_page(request):
 
 def profile_page(request):
     context = {'user': request.user}
+
+    if request.method == 'POST':
+        form = CopingPreferenceForm(request.POST)
+        if form.is_valid():
+            initial_emotion = form.cleaned_data['initial_emotion']
+            coping_emotion = form.cleaned_data['coping_emotion']
+
+            preference = CopingPreference.objects.create(
+                user=request.user,
+                initial_emotion=initial_emotion,
+                coping_emotion=coping_emotion
+            )
+
+            return redirect('home')
+    else:
+        form = CopingPreferenceForm()
+
+    context['form'] = form
     return render(request, 'profile.html', context)
